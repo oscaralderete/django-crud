@@ -1,0 +1,52 @@
+body {
+	padding: 1em
+}
+
+/* floating button */
+button.custom-fixed{
+	position: fixed;
+	bottom: 1em;
+	right: 1em
+}
+
+/* modal */
+.modal-container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	display: none
+}
+.modal-container > div{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,.25);
+	z-index: 10
+}
+.modal-container > form{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+	z-index: 20;
+	padding: 1em
+}
+.modal-container.active{
+	display: block
+}
+
+.align-center{
+	text-align: center
+}
+
+.link{
+	color: #00E;
+	text-decoration: underline;
+	cursor: pointer
+}

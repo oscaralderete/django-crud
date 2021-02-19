@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{% endblock %}</title>
+<meta name="description" content="{% block description %}{% endblock %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/pure.2.0.5.css' %}"/>
+{% block styles %}{% endblock %}
+</head>
+<body>
+
+<!-- navigation -->
+<nav>
+	<ul class="top-navigation">
+	{% include '_parent/_navigation.html' %}
+	</ul>
+</nav>
+
+<h1 class="site-title">Learning Django</h1>
+
+<!-- content -->
+{% block content %}{% endblock %}
+
+<!-- footer -->
+{% include '_parent/_footer.html' %}
+
+<div id="toast"></div>
+<div id="loader"></div>
+
+<!-- json serialized page data (available on load) -->
+{% block page_data %}{% endblock %}
+<script src="{% static 'js/jquery.3.5.1.js' %}"></script>
+<script src="{% static 'js/vue.2.6.12.js' %}"></script>
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

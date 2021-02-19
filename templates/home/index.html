@@ -1,0 +1,94 @@
+{% extends '_parent/page.html' %}
+
+{% block title %}{{page.title}}{% endblock %}
+
+{% block styles %}
+	{% for i in page.styles %}
+	<link rel="stylesheet" href="{{i}}">
+	{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+	{% for i in page.scripts %}
+	<script src="{{i}}"></script>
+	{% endfor %}
+{% endblock %}
+
+{% block page_data %}
+{{page_data | json_script:'page_data'}}
+{% endblock %}
+
+{% block content %}
+<div id="app">
+	<h1>[[title]]</h1>
+	<h2>[[subtitle]]</h2>
+
+	<!-- records list -->
+	<table class="pure-table">
+		<thead>
+			<tr>
+				<th>Last name</th>
+				<th>First name</th>
+				<th>Email</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="i in users">
+				<td>[[ i.last_name ]]</td>
+				<td>[[ i.first_name ]]</td>
+				<td>[[ i.email ]]</td>
+				<td><a class="link" @click="edit(i)">Edit</a></td>
+				<td><a class="link" @click="drop(i)">Delete</a></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" class="align-center">Total records: <b>[[ users.length ]]</b></td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<button class="pure-button pure-button-primary custom-fixed" @click="switchFormAdd">Add</button>
+
+	<!-- form to add record  -->
+	<div ref="divAdd" class="modal-container">
+		<div @click="closeModal('divAdd')" title="Click to close"></div>
+		<form class="pure-form pure-form-stacked" autocomplete="off" v-on:submit.prevent>
+			<fieldset>
+				<!-- Django token, important -->
+				{% csrf_token %}
+		        <legend>Create user</legend>
+				<label for="first_name">First name</label>
+				<input type="text" id="first_name" class="pure-input-1" placeholder="First name" maxlength="50" v-model="add_user.first_name" required>
+				<label for="last_name">Last name</label>
+				<input type="text" id="last_name" class="pure-input-1" placeholder="Last name" maxlength="50" v-model="add_user.last_name" required>
+		        <label for="email">Email</label>
+		        <input type="email" id="email" class="pure-input-1" placeholder="Email" maxlength="50" v-model="add_user.email" required>
+		        <button class="pure-button pure-button-primary" @click="createUser">Create user</button>
+				<button class="pure-button" @click="closeModal('divAdd')">Cancel</button>
+			</fieldset>
+		</form>
+	</div>
+
+	<!-- form to edit record  -->
+	<div ref="divEdit" class="modal-container">
+		<div @click="closeModal('divEdit')" title="Click to close"></div>
+		<form class="pure-form pure-form-stacked" autocomplete="off" v-on:submit.prevent>
+			<fieldset>
+				<!-- Django token, it's already declared on create user form so we will use the same token to update process -->
+		        <legend>Edit user</legend>
+				<label for="first_name">First name</label>
+				<input type="text" id="first_name" class="pure-input-1" placeholder="First name" maxlength="50" v-model="edit_user.first_name" required>
+				<label for="last_name">Last name</label>
+				<input type="text" id="last_name" class="pure-input-1" placeholder="Last name" maxlength="50" v-model="edit_user.last_name" required>
+		        <label for="email">Email</label>
+		        <input type="email" id="email" class="pure-input-1" placeholder="Email" maxlength="50" v-model="edit_user.email" required>
+		        <button class="pure-button pure-button-primary" @click="updateUser">Update user</button>
+				<button class="pure-button" @click="closeModal('divEdit')">Cancel</button>
+			</fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}
